@@ -1,0 +1,20 @@
+@import "tailwindcss";
+
+body {
+  background-color: #f9fafb; /* bg-gray-50 */
+}
+
+/* Custom text selection style for the name */
+.selectable-name::selection {
+  background-color: #111827; /* black */
+  color: #f9fafb; /* white */
+}
+
+/* Juicy icon hover effect using transform and transition */
+.social-icon {
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.social-icon:hover {
+  transform: scale(1.25) translateY(-5px);
+}
