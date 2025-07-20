@@ -321,14 +321,17 @@ export default function HomePage() {
           <div className="flex gap-3 sm:gap-4 justify-center flex-wrap mobile-btn-group items-center w-full">
             <button 
               onClick={() => window.open('mailto:hi@mathusan.me', '_blank')}
-              className="group relative px-6 sm:px-8 py-3 sm:py-4 bg-gray-900 text-white font-medium rounded-lg overflow-hidden transition-all duration-300 active:scale-95 no-select mobile-btn"
+              className="group relative px-6 sm:px-8 py-3 sm:py-4 bg-gray-900 hover:bg-gray-800 text-white font-medium rounded-lg overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-gray-900/25 active:scale-95 no-select mobile-btn"
             >
               <span className="relative z-10 flex items-center gap-2 justify-center">
                 Let&apos;s Connect
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
                 </svg>
               </span>
+              
+              {/* Subtle overlay on hover - desktop only */}
+              <div className="absolute inset-0 bg-gradient-to-r from-gray-700 to-gray-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               
               {/* Gentle ripple effect for touch */}
               <div className="absolute inset-0 bg-white/10 scale-0 group-active:scale-100 transition-transform duration-200 rounded-lg" />
@@ -336,14 +339,17 @@ export default function HomePage() {
 
             <button 
               onClick={() => window.open('https://github.com/mathusanm6', '_blank')}
-              className="group relative px-6 sm:px-8 py-3 sm:py-4 bg-white border-2 border-gray-900 text-gray-900 font-medium rounded-lg overflow-hidden transition-all duration-300 active:scale-95 no-select mobile-btn"
+              className="group relative px-6 sm:px-8 py-3 sm:py-4 bg-white border-2 border-gray-900 hover:bg-gray-50 text-gray-900 font-medium rounded-lg overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-gray-900/10 active:scale-95 no-select mobile-btn"
             >
               <span className="relative z-10 flex items-center gap-2 justify-center">
                 View Projects
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                 </svg>
               </span>
+              
+              {/* Subtle overlay on hover - desktop only */}
+              <div className="absolute inset-0 bg-gray-50 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               
               {/* Gentle ripple effect for touch */}
               <div className="absolute inset-0 bg-gray-900/5 scale-0 group-active:scale-100 transition-transform duration-200 rounded-lg" />

@@ -427,24 +427,81 @@ body {
   }
 }
 
+/* Desktop hover effects - only on devices with hover capability */
+@media (hover: hover) and (pointer: fine) {
+  button:hover {
+    transform: scale(1.02);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+
+  .bg-gray-900:hover {
+    background-color: rgb(31 41 55) !important;
+  }
+
+  .border-gray-900:hover {
+    background-color: rgb(249 250 251) !important;
+  }
+
+  .group:hover svg {
+    transform: translateX(4px);
+  }
+
+  /* Allow all hover effects on desktop */
+  .group:hover .bg-gradient-to-r {
+    opacity: 1 !important;
+  }
+}
+
 /* Disable all hover effects on touch devices */
 @media (hover: none) and (pointer: coarse) {
   .social-icon:hover,
   .skill-pill:hover,
   .btn-ripple:hover,
-  .interactive-glow:hover,
-  button:hover {
+  .interactive-glow:hover {
     transform: none !important;
     filter: none !important;
-    background: inherit !important;
     box-shadow: none !important;
     scale: none !important;
+  }
+
+  /* Disable button hover transforms and shadows but keep background */
+  button:hover,
+  .group:hover {
+    transform: none !important;
+    filter: none !important;
+    box-shadow: none !important;
+    scale: none !important;
+  }
+
+  /* Disable hover background changes specifically */
+  button.bg-gray-900:hover {
+    background-color: rgb(
+      17 24 39
+    ) !important; /* Keep original bg-gray-900 color */
+  }
+
+  button.bg-white:hover {
+    background-color: rgb(
+      255 255 255
+    ) !important; /* Keep original bg-white color */
   }
 
   .social-icon:hover::before,
   .skill-pill:hover::before,
   .btn-ripple:hover::before {
     opacity: 0 !important;
+  }
+
+  /* Disable specific button hover overlay effects */
+  .group:hover .bg-gradient-to-r,
+  .group:hover .bg-gray-50,
+  .group:hover .bg-gray-800 {
+    opacity: 0 !important;
+  }
+
+  /* Disable icon transforms on hover */
+  .group:hover svg {
+    transform: none !important;
   }
 
   /* Keep only active states for touch feedback */
@@ -456,5 +513,42 @@ body {
   button:active {
     transform: scale(0.98) !important;
     transition: transform 0.1s ease !important;
+  }
+}
+
+/* Additional mobile-specific button fixes */
+@media (max-width: 768px) {
+  button:hover,
+  .group:hover {
+    transform: none !important;
+    box-shadow: none !important;
+  }
+
+  /* Preserve button backgrounds on mobile */
+  button.bg-gray-900:hover {
+    background-color: rgb(
+      17 24 39
+    ) !important; /* Keep original bg-gray-900 color */
+  }
+
+  button.bg-white:hover {
+    background-color: rgb(
+      255 255 255
+    ) !important; /* Keep original bg-white color */
+  }
+
+  .group:hover svg {
+    transform: none !important;
+  }
+
+  .group:hover .bg-gradient-to-r,
+  .group:hover .bg-gray-50 {
+    opacity: 0 !important;
+  }
+
+  /* Ensure buttons work properly on touch */
+  button:active {
+    transform: scale(0.98);
+    transition: transform 0.1s ease;
   }
 }
