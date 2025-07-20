@@ -1,6 +1,6 @@
 'use client';
 
-import React, { FC, SVGProps, useEffect, useState, useMemo } from 'react';
+import React, { FC, SVGProps, useEffect, useState, useMemo, useRef } from 'react';
 import { SocialLink } from '@/types'; 
 
 // --- Helper Components & Data ---
@@ -92,11 +92,11 @@ const SkillPills = () => {
   }, [skills]);
 
   return (
-    <div className="flex flex-wrap justify-center gap-3 mt-8 max-w-md mx-auto">
+    <div className="flex flex-wrap justify-center gap-2 sm:gap-3 mt-6 sm:mt-8 max-w-sm sm:max-w-md mx-auto mobile-skills">
       {skills.map((skill: string, index: number) => (
         <span
           key={skill}
-          className={`skill-pill px-4 py-2 bg-gray-100 border border-gray-200 rounded-full text-sm text-gray-700 font-medium transition-all duration-500 hover:bg-gray-200 hover:scale-105 no-select ${
+          className={`skill-pill px-3 sm:px-4 py-1.5 sm:py-2 bg-gray-100 border border-gray-200 rounded-full text-xs sm:text-sm text-gray-700 font-medium transition-all duration-500 hover:bg-gray-200 hover:scale-105 no-select ${
             visibleSkills.includes(index) ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'
           }`}
           style={{ 
@@ -110,36 +110,60 @@ const SkillPills = () => {
   );
 };
 
-// 5. Interactive Background Grid
-const BackgroundGrid = () => {
-  return (
-    <div className="absolute inset-0 opacity-5">
-      <div 
-        className="absolute inset-0 bg-gradient-to-r from-gray-500/10 to-gray-600/10"
-        style={{
-          backgroundImage: `
-            linear-gradient(rgba(107, 114, 128, 0.1) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(107, 114, 128, 0.1) 1px, transparent 1px)
-          `,
-          backgroundSize: '50px 50px',
-          animation: 'float 20s ease-in-out infinite',
-        }}
-      />
-    </div>
-  );
-};
-
 // --- Main Page Component ---
 export default function HomePage() {
   const [isLoaded, setIsLoaded] = useState(false);
   const [showTooltip, setShowTooltip] = useState(false);
+  const tooltipTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     setIsLoaded(true);
   }, []);
 
+  const handleTooltipTouch = () => {
+    // Clear any existing timeout
+    if (tooltipTimeoutRef.current) {
+      clearTimeout(tooltipTimeoutRef.current);
+    }
+    
+    // Show tooltip
+    setShowTooltip(true);
+    
+    // Set timeout to hide after 3 seconds
+    tooltipTimeoutRef.current = setTimeout(() => {
+      setShowTooltip(false);
+    }, 3000);
+  };
+
+  const handleTooltipMouseEnter = () => {
+    // Clear any existing timeout
+    if (tooltipTimeoutRef.current) {
+      clearTimeout(tooltipTimeoutRef.current);
+    }
+    setShowTooltip(true);
+  };
+
+  const handleTooltipMouseLeave = () => {
+    // Clear any existing timeout
+    if (tooltipTimeoutRef.current) {
+      clearTimeout(tooltipTimeoutRef.current);
+    }
+    setShowTooltip(false);
+  };
+
+  // Cleanup timeout on unmount
+  useEffect(() => {
+    return () => {
+      if (tooltipTimeoutRef.current) {
+        clearTimeout(tooltipTimeoutRef.current);
+      }
+    };
+  }, []);
+
   return (
-    <main className="relative flex min-h-screen w-full flex-col items-center justify-center bg-white overflow-hidden p-4">
+    <main className={`relative min-h-screen bg-white overflow-hidden transition-all duration-1000 flex flex-col justify-center items-center px-4 ${
+      isLoaded ? 'opacity-100' : 'opacity-0'
+    }`}>
       {/* Custom Selection Styling */}
       <style jsx global>{`
         /* Default selection for general text */
@@ -212,14 +236,13 @@ export default function HomePage() {
       
       {/* Animated Background */}
       <FloatingParticles />
-      <BackgroundGrid />
       
       {/* Main Content */}
       <div className={`text-center z-20 transform transition-all duration-1000 ${
         isLoaded ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'
       }`}>
         {/* Main Heading - Clean Name */}
-        <h1 className="text-5xl md:text-7xl lg:text-8xl font-semibold tracking-wide mb-6 text-gray-900 select-text">
+        <h1 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-semibold tracking-wide mb-4 sm:mb-6 text-gray-900 select-text mobile-title">
           <span className="selectable-name font-sans">Mathusan Selvakumar</span>
           <span 
             className="inline-block ml-2 no-select"
@@ -233,21 +256,25 @@ export default function HomePage() {
         </h1>
         
         {/* Subtitle with Typing Effect */}
-        <div className="mb-8 text-xl md:text-2xl text-gray-600 font-light leading-relaxed select-text">
+        <div className="mb-6 sm:mb-8 text-lg sm:text-xl md:text-2xl text-gray-600 font-light leading-relaxed select-text mobile-subtitle">
           <div className="inline-block space-y-2">
             <div className="flex items-center justify-center gap-2 flex-wrap">
-              <span className="bg-blue-50 text-gray-800 px-3 py-2 rounded-lg font-semibold role-blue">Software Engineer Apprentice <span 
+              <span className="bg-blue-50 text-gray-800 px-2 sm:px-3 py-1.5 sm:py-2 rounded-lg font-semibold role-blue mobile-role-badge">Software Engineer Apprentice <span 
                 className="text-red-500 cursor-help no-select"
-                onMouseEnter={() => setShowTooltip(true)}
-                onMouseLeave={() => setShowTooltip(false)}
+                onMouseEnter={handleTooltipMouseEnter}
+                onMouseLeave={handleTooltipMouseLeave}
+                onClick={handleTooltipTouch}
+                role="button"
+                tabIndex={0}
+                aria-label="Tap for explanation"
               >
                 *
               </span></span>
               
               <span className="text-blue-600 font-medium blue-highlight">@Google</span>
             </div>
-            <div className="flex items-center justify-center gap-2 mt-3">
-              <span className="bg-violet-50 text-gray-800 px-3 py-2 rounded-lg font-semibold role-violet">MSc Data Science Student</span>
+            <div className="flex items-center justify-center gap-2 mt-2 sm:mt-3">
+              <span className="bg-violet-50 text-gray-800 px-2 sm:px-3 py-1.5 sm:py-2 rounded-lg font-semibold role-violet mobile-role-badge">MSc Data Science Student</span>
               <span className="text-purple-600 font-medium purple-highlight">@Université Paris-Saclay</span>
             </div>
           </div>
@@ -257,7 +284,7 @@ export default function HomePage() {
         <SkillPills />
 
         {/* Enhanced Social Links */}
-        <div className="flex justify-center items-center space-x-12 mt-12">{socialLinks.map((link, index) => (
+        <div className="flex justify-center items-center space-x-8 sm:space-x-12 mt-8 sm:mt-12 mobile-social-container">{socialLinks.map((link, index) => (
             <a
               key={link.name}
               href={link.url}
@@ -271,16 +298,16 @@ export default function HomePage() {
                 transitionDelay: `${200 + index * 100}ms` 
               }}
             >
-              {/* Glow Effect */}
-              <div className="absolute inset-0 rounded-full bg-gradient-to-r from-blue-400 to-purple-400 opacity-0 group-hover:opacity-10 transition-opacity duration-300 blur-xl scale-150" />
+              {/* Glow Effect - Hidden on mobile */}
+              <div className="absolute inset-0 rounded-full bg-gradient-to-r from-blue-400 to-purple-400 opacity-0 group-hover:opacity-10 transition-opacity duration-300 blur-xl scale-150 hidden sm:block" />
               
               {/* Icon */}
               <div className="relative z-10">
                 <link.icon />
               </div>
               
-              {/* Tooltip */}
-              <span className="absolute -top-12 left-1/2 transform -translate-x-1/2 bg-gray-900 text-white px-3 py-1 rounded-lg text-sm font-medium opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none">
+              {/* Tooltip - Hidden on mobile */}
+              <span className="absolute -top-12 left-1/2 transform -translate-x-1/2 bg-gray-900 text-white px-3 py-1 rounded-lg text-sm font-medium opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none hidden sm:block">
                 {link.name}
               </span>
             </a>
@@ -288,43 +315,37 @@ export default function HomePage() {
         </div>
 
         {/* Call to Action Buttons */}
-        <div className={`mt-12 transform transition-all duration-1000 delay-700 ${
+        <div className={`mt-8 sm:mt-12 transform transition-all duration-1000 delay-700 flex justify-center w-full ${
           isLoaded ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'
         }`}>
-          <div className="flex gap-4 justify-center flex-wrap">
+          <div className="flex gap-3 sm:gap-4 justify-center flex-wrap mobile-btn-group items-center w-full">
             <button 
               onClick={() => window.open('mailto:hi@mathusan.me', '_blank')}
-              className="group relative px-8 py-4 bg-gray-900 hover:bg-gray-800 text-white font-medium rounded-lg overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-gray-900/25 active:scale-95 no-select"
+              className="group relative px-6 sm:px-8 py-3 sm:py-4 bg-gray-900 text-white font-medium rounded-lg overflow-hidden transition-all duration-300 active:scale-95 no-select mobile-btn"
             >
-              <span className="relative z-10 flex items-center gap-2">
+              <span className="relative z-10 flex items-center gap-2 justify-center">
                 Let&apos;s Connect
-                <svg className="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
                 </svg>
               </span>
               
-              {/* Subtle overlay on hover */}
-              <div className="absolute inset-0 bg-gradient-to-r from-gray-700 to-gray-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-              
-              {/* Gentle ripple effect */}
+              {/* Gentle ripple effect for touch */}
               <div className="absolute inset-0 bg-white/10 scale-0 group-active:scale-100 transition-transform duration-200 rounded-lg" />
             </button>
 
             <button 
               onClick={() => window.open('https://github.com/mathusanm6', '_blank')}
-              className="group relative px-8 py-4 bg-white border-2 border-gray-900 hover:bg-gray-50 text-gray-900 font-medium rounded-lg overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-gray-900/10 active:scale-95 no-select"
+              className="group relative px-6 sm:px-8 py-3 sm:py-4 bg-white border-2 border-gray-900 text-gray-900 font-medium rounded-lg overflow-hidden transition-all duration-300 active:scale-95 no-select mobile-btn"
             >
-              <span className="relative z-10 flex items-center gap-2">
+              <span className="relative z-10 flex items-center gap-2 justify-center">
                 View Projects
-                <svg className="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                 </svg>
               </span>
               
-              {/* Subtle overlay on hover */}
-              <div className="absolute inset-0 bg-gray-50 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-              
-              {/* Gentle ripple effect */}
+              {/* Gentle ripple effect for touch */}
               <div className="absolute inset-0 bg-gray-900/5 scale-0 group-active:scale-100 transition-transform duration-200 rounded-lg" />
             </button>
           </div>
@@ -332,7 +353,7 @@ export default function HomePage() {
       </div>
 
       {/* Bottom Right Tooltip */}
-      <div className={`fixed bottom-6 right-6 bg-gray-900 text-white px-4 py-3 rounded-lg text-sm font-medium max-w-xs transition-all duration-300 z-50 ${
+      <div className={`fixed bottom-4 sm:bottom-6 left-4 right-4 sm:left-auto sm:right-6 bg-gray-900 text-white px-3 sm:px-4 py-2 sm:py-3 rounded-lg text-xs sm:text-sm font-medium max-w-xs sm:max-w-xs transition-all duration-300 z-50 mobile-tooltip ${
         showTooltip ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2 pointer-events-none'
       }`}>
         <div className="flex items-start gap-2">

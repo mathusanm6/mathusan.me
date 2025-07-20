@@ -165,6 +165,24 @@ body {
   transform: scale(1.1) translateY(-4px);
 }
 
+/* Mobile-specific social icon styles */
+@media (max-width: 768px) {
+  .social-icon {
+    padding: 10px;
+    transition: all 0.2s ease;
+  }
+
+  .social-icon:hover {
+    transform: none; /* Disable hover animations on mobile */
+    filter: none;
+  }
+
+  .social-icon:active {
+    transform: scale(0.95);
+    transition: transform 0.1s ease;
+  }
+}
+
 /* Gradient Text Effects */
 .gradient-text {
   background: linear-gradient(90deg, #3b82f6, #8b5cf6, #ec4899);
@@ -248,6 +266,17 @@ body {
   left: 100%;
 }
 
+/* Mobile-specific skill pill styles */
+@media (max-width: 768px) {
+  .skill-pill::before {
+    display: none; /* Disable hover effects on mobile */
+  }
+
+  .skill-pill:hover {
+    transform: none;
+  }
+}
+
 /* Custom Scrollbar */
 ::-webkit-scrollbar {
   width: 8px;
@@ -275,6 +304,48 @@ body {
   .social-icon:hover {
     transform: scale(1.15) translateY(-6px);
   }
+
+  /* Button mobile optimizations */
+  .mobile-btn {
+    padding: 12px 24px !important;
+    font-size: 14px !important;
+    min-height: 44px; /* Minimum touch target size */
+  }
+
+  /* Text mobile optimizations */
+  .mobile-title {
+    font-size: 2.5rem !important;
+    line-height: 1.2 !important;
+    margin-bottom: 1rem !important;
+  }
+
+  .mobile-subtitle {
+    font-size: 1rem !important;
+    line-height: 1.4 !important;
+    padding: 0 1rem;
+  }
+
+  .mobile-role-badge {
+    font-size: 0.875rem !important;
+    padding: 8px 12px !important;
+    margin: 4px !important;
+  }
+
+  /* Social links mobile optimization */
+  .mobile-social-container {
+    gap: 2rem !important;
+    margin-top: 2rem !important;
+  }
+
+  /* Tooltip mobile adjustments */
+  .mobile-tooltip {
+    position: fixed !important;
+    bottom: 1rem !important;
+    left: 1rem !important;
+    right: 1rem !important;
+    max-width: none !important;
+    font-size: 0.875rem !important;
+  }
 }
 
 /* Mobile Optimizations */
@@ -286,12 +357,59 @@ body {
   .text-shine {
     animation-duration: 2s; /* Faster animation on mobile */
   }
-}
 
-/* Dark Mode Compatibility */
-@media (prefers-color-scheme: dark) {
+  /* Mobile-specific layout optimizations */
   body {
-    background: linear-gradient(135deg, #0f172a 0%, #581c87 50%, #0f172a 100%);
+    overflow-x: hidden;
+  }
+
+  /* Force center buttons on mobile */
+  .flex.justify-center.flex-wrap {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    width: 100% !important;
+  }
+
+  /* Mobile button container */
+  div[class*="mobile-btn-group"] {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 100% !important;
+    max-width: 280px !important;
+    margin: 0 auto !important;
+  }
+
+  /* Mobile button group - ensure proper centering */
+  .mobile-btn-group {
+    flex-direction: column !important;
+    gap: 0.75rem !important;
+    width: 100% !important;
+    max-width: 280px !important;
+    align-items: center !important;
+    justify-content: center !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+
+  .mobile-btn-group button {
+    width: 100% !important;
+    justify-content: center !important;
+    display: flex !important;
+    align-items: center !important;
+  }
+
+  /* Mobile skill pills */
+  .mobile-skills {
+    max-width: 100% !important;
+    padding: 0 1rem;
+  }
+
+  .mobile-skills .skill-pill {
+    font-size: 0.8rem !important;
+    padding: 6px 12px !important;
   }
 }
 
@@ -306,5 +424,37 @@ body {
 
   .social-icon:hover {
     transform: scale(1.05);
+  }
+}
+
+/* Disable all hover effects on touch devices */
+@media (hover: none) and (pointer: coarse) {
+  .social-icon:hover,
+  .skill-pill:hover,
+  .btn-ripple:hover,
+  .interactive-glow:hover,
+  button:hover {
+    transform: none !important;
+    filter: none !important;
+    background: inherit !important;
+    box-shadow: none !important;
+    scale: none !important;
+  }
+
+  .social-icon:hover::before,
+  .skill-pill:hover::before,
+  .btn-ripple:hover::before {
+    opacity: 0 !important;
+  }
+
+  /* Keep only active states for touch feedback */
+  .social-icon:active {
+    transform: scale(0.95) !important;
+    transition: transform 0.1s ease !important;
+  }
+
+  button:active {
+    transform: scale(0.98) !important;
+    transition: transform 0.1s ease !important;
   }
 }
