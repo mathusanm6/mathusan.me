@@ -9,23 +9,23 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: 'Mathusan Selvakumar | Software Engineer & Digital Creator',
-  description: 'Personal portfolio of Mathusan Selvakumar - Software Engineer and Digital Creator passionate about building innovative solutions.',
-  keywords: ['Software Engineer', 'Developer', 'Portfolio', 'Web Development', 'React', 'Next.js'],
+  title: 'Mathusan Selvakumar | Software Engineering Apprentice @ Google & MSc Student @ Université Paris-Saclay',
+  description: 'Personal portfolio of Mathusan Selvakumar - Software Engineering Apprentice at Google and MSc Computer Science student at Université Paris-Saclay passionate about learning and building innovative solutions.',
+  keywords: ['Software Engineering Apprentice', 'Google', 'MSc Student', 'Université Paris-Saclay', 'Computer Science', 'Developer', 'Portfolio', 'Web Development', 'React', 'Next.js', 'Student'],
   authors: [{ name: 'Mathusan Selvakumar' }],
   creator: 'Mathusan Selvakumar',
   openGraph: {
     type: 'website',
     locale: 'en_US',
     url: 'https://mathusan.me',
-    title: 'Mathusan Selvakumar | Software Engineer & Digital Creator',
-    description: 'Personal portfolio of Mathusan Selvakumar - Software Engineer and Digital Creator passionate about building innovative solutions.',
+    title: 'Mathusan Selvakumar | Software Engineering Apprentice @ Google & MSc Student @ Université Paris-Saclay',
+    description: 'Personal portfolio of Mathusan Selvakumar - Software Engineering Apprentice at Google and MSc Computer Science student at Université Paris-Saclay passionate about learning and building innovative solutions.',
     siteName: 'Mathusan Selvakumar',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Mathusan Selvakumar | Software Engineer & Digital Creator',
-    description: 'Personal portfolio of Mathusan Selvakumar - Software Engineer and Digital Creator passionate about building innovative solutions.',
+    title: 'Mathusan Selvakumar | Software Engineering Apprentice @ Google & MSc Student @ Université Paris-Saclay',
+    description: 'Personal portfolio of Mathusan Selvakumar - Software Engineering Apprentice at Google and MSc Computer Science student at Université Paris-Saclay passionate about learning and building innovative solutions.',
   },
   robots: {
     index: true,
