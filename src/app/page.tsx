@@ -1,6 +1,6 @@
 'use client';
 
-import React, { FC, SVGProps, useEffect, useState } from 'react';
+import React, { FC, SVGProps, useEffect, useState, useMemo } from 'react';
 import { SocialLink } from '@/types'; 
 
 // --- Helper Components & Data ---
@@ -49,30 +49,7 @@ const FloatingParticles = () => {
   );
 };
 
-// 2. Typing Animation Component
-const TypedText = ({ text, className }: { text: string; className?: string }) => {
-  const [displayText, setDisplayText] = useState('');
-  const [currentIndex, setCurrentIndex] = useState(0);
-
-  useEffect(() => {
-    if (currentIndex < text.length) {
-      const timeout = setTimeout(() => {
-        setDisplayText(prev => prev + text[currentIndex]);
-        setCurrentIndex(prev => prev + 1);
-      }, 100);
-      return () => clearTimeout(timeout);
-    }
-  }, [currentIndex, text]);
-
-  return (
-    <span className={className}>
-      {displayText}
-      <span className="animate-pulse">|</span>
-    </span>
-  );
-};
-
-// 3. Inline SVG Icons
+// 2. Inline SVG Icons
 const icons: { [key: string]: FC<SVGProps<SVGSVGElement>> } = {
   linkedin: (props) => (
     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" {...props}>
@@ -94,29 +71,29 @@ const icons: { [key: string]: FC<SVGProps<SVGSVGElement>> } = {
   )
 };
 
-// 4. Social Links Data
+// 3. Social Links Data
 const socialLinks: SocialLink[] = [
     { name: 'LinkedIn', icon: icons.linkedin, url: 'https://www.linkedin.com/in/mathusan-selvakumar/' },
     { name: 'GitHub', icon: icons.github, url: 'https://github.com/mathusanm6' },
     { name: 'Email', icon: icons.mail, url: 'mailto:hi@mathusan.me' },
 ];
 
-// 5. Skill Pills Component
+// 4. Skill Pills Component
 const SkillPills = () => {
-  const skills = ['Python', 'C++', 'Java'];
+  const skills = useMemo(() => ['Python', 'C++', 'Java'], []);
   const [visibleSkills, setVisibleSkills] = useState<number[]>([]);
 
   useEffect(() => {
-    skills.forEach((_, index) => {
+    skills.forEach((_, index: number) => {
       setTimeout(() => {
         setVisibleSkills(prev => [...prev, index]);
       }, 2000 + index * 200);
     });
-  }, []);
+  }, [skills]);
 
   return (
     <div className="flex flex-wrap justify-center gap-3 mt-8 max-w-md mx-auto">
-      {skills.map((skill, index) => (
+      {skills.map((skill: string, index: number) => (
         <span
           key={skill}
           className={`skill-pill px-4 py-2 bg-gray-100 border border-gray-200 rounded-full text-sm text-gray-700 font-medium transition-all duration-500 hover:bg-gray-200 hover:scale-105 no-select ${
@@ -133,7 +110,7 @@ const SkillPills = () => {
   );
 };
 
-// 6. Interactive Background Grid
+// 5. Interactive Background Grid
 const BackgroundGrid = () => {
   return (
     <div className="absolute inset-0 opacity-5">
@@ -320,7 +297,7 @@ export default function HomePage() {
               className="group relative px-8 py-4 bg-gray-900 hover:bg-gray-800 text-white font-medium rounded-lg overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-gray-900/25 active:scale-95 no-select"
             >
               <span className="relative z-10 flex items-center gap-2">
-                Let's Connect
+                Let&apos;s Connect
                 <svg className="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
                 </svg>
