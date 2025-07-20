@@ -432,13 +432,20 @@ body {
   .social-icon:hover,
   .skill-pill:hover,
   .btn-ripple:hover,
-  .interactive-glow:hover,
+  .interactive-glow:hover {
+    transform: none !important;
+    filter: none !important;
+    box-shadow: none !important;
+    scale: none !important;
+  }
+
+  /* Disable hover effects for buttons but preserve original background colors */
   button:hover {
     transform: none !important;
     filter: none !important;
-    background: inherit !important;
     box-shadow: none !important;
     scale: none !important;
+    /* Remove background: inherit to preserve original button colors */
   }
 
   .social-icon:hover::before,
