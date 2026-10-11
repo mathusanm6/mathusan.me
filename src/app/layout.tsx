@@ -1,47 +1,43 @@
-import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
+import type { Metadata, Viewport } from 'next';
+import '@fontsource-variable/inter';
+import '@fontsource-variable/source-serif-4';
+import '@fontsource-variable/jetbrains-mono';
 import './globals.css';
+import Header from '@/components/Header';
+import Footer from '@/components/Footer';
+import { SITE } from '@/lib/site';
 
-const inter = Inter({ 
-  subsets: ['latin'],
-  display: 'swap',
-  variable: '--font-inter',
-});
+export const viewport: Viewport = {
+  themeColor: [
+    { media: '(prefers-color-scheme: light)', color: '#ffffff' },
+    { media: '(prefers-color-scheme: dark)', color: '#0c0c0d' },
+  ],
+};
 
 export const metadata: Metadata = {
-  title: 'Mathusan Selvakumar | Software Engineering Apprentice @ Google & MSc Student @ Université Paris-Saclay',
-  description: 'Personal portfolio of Mathusan Selvakumar - Software Engineering Apprentice at Google and MSc Computer Science student at Université Paris-Saclay passionate about learning and building innovative solutions.',
-  keywords: ['Software Engineering Apprentice', 'Google', 'MSc Student', 'Université Paris-Saclay', 'Computer Science', 'Developer', 'Portfolio', 'Web Development', 'React', 'Next.js', 'Student'],
-  authors: [{ name: 'Mathusan Selvakumar' }],
-  creator: 'Mathusan Selvakumar',
+  metadataBase: new URL(SITE.url),
+  title: { default: SITE.name, template: `%s · ${SITE.name}` },
+  description: SITE.description,
+  authors: [{ name: SITE.name, url: SITE.url }],
+  creator: SITE.name,
   openGraph: {
     type: 'website',
     locale: 'en_US',
-    url: 'https://mathusan.me',
-    title: 'Mathusan Selvakumar | Software Engineering Apprentice @ Google & MSc Student @ Université Paris-Saclay',
-    description: 'Personal portfolio of Mathusan Selvakumar - Software Engineering Apprentice at Google and MSc Computer Science student at Université Paris-Saclay passionate about learning and building innovative solutions.',
-    siteName: 'Mathusan Selvakumar',
+    url: SITE.url,
+    siteName: SITE.name,
+    title: SITE.name,
+    description: SITE.description,
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Mathusan Selvakumar | Software Engineering Apprentice @ Google & MSc Student @ Université Paris-Saclay',
-    description: 'Personal portfolio of Mathusan Selvakumar - Software Engineering Apprentice at Google and MSc Computer Science student at Université Paris-Saclay passionate about learning and building innovative solutions.',
+    title: SITE.name,
+    description: SITE.description,
   },
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      'max-video-preview': -1,
-      'max-image-preview': 'large',
-      'max-snippet': -1,
-    },
-  },
-  verification: {
-    google: 'your-google-verification-code',
-  },
+  robots: { index: true, follow: true },
 };
+
+// Runs before first paint so the page never flashes the wrong theme.
+const themeScript = `(function(){try{var t=localStorage.getItem('theme');if(t!=='light'&&t!=='dark'){t=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'}document.documentElement.dataset.theme=t}catch(e){document.documentElement.dataset.theme='light'}})()`;
 
 export default function RootLayout({
   children,
@@ -49,17 +45,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={inter.variable}>
+    <html lang="en" suppressHydrationWarning>
       <head>
-        <link rel="icon" href="/favicon.ico" />
-        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
-        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
-        <meta name="theme-color" content="#581c87" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
       </head>
-      <body className={`${inter.className} antialiased`}>
-        {children}
+      <body className="flex min-h-screen flex-col">
+        <Header />
+        <main className="flex-1">{children}</main>
+        <Footer />
       </body>
     </html>
   );

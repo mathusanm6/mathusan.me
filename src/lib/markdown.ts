@@ -1,0 +1,62 @@
+import { unified } from 'unified';
+import remarkParse from 'remark-parse';
+import remarkGfm from 'remark-gfm';
+import remarkRehype from 'remark-rehype';
+import rehypeSlug from 'rehype-slug';
+import rehypeAutolinkHeadings from 'rehype-autolink-headings';
+import rehypeShiki from '@shikijs/rehype';
+import rehypeStringify from 'rehype-stringify';
+
+type HastNode = {
+  type: string;
+  tagName?: string;
+  properties?: Record<string, unknown>;
+  children?: HastNode[];
+};
+
+/** Open absolute links in a new tab, and lazy-load images. */
+function rehypeLinksAndImages() {
+  return (tree: HastNode) => {
+    const walk = (node: HastNode) => {
+      if (node.type === 'element') {
+        const props = (node.properties ??= {});
+        if (node.tagName === 'a') {
+          const href = String(props.href ?? '');
+          if (/^https?:\/\//.test(href)) {
+            props.target = '_blank';
+            props.rel = 'noopener noreferrer';
+          }
+        }
+        if (node.tagName === 'img') {
+          props.loading = 'lazy';
+          props.decoding = 'async';
+        }
+      }
+      node.children?.forEach(walk);
+    };
+    walk(tree);
+  };
+}
+
+const processor = unified()
+  .use(remarkParse)
+  .use(remarkGfm)
+  .use(remarkRehype)
+  .use(rehypeSlug)
+  .use(rehypeAutolinkHeadings, {
+    behavior: 'append',
+    properties: { className: ['anchor'], ariaLabel: 'Link to this section' },
+    content: { type: 'text', value: '#' },
+  })
+  .use(rehypeShiki, {
+    themes: { light: 'github-light', dark: 'github-dark' },
+    defaultColor: false,
+    fallbackLanguage: 'text',
+  })
+  .use(rehypeLinksAndImages)
+  .use(rehypeStringify);
+
+export async function renderMarkdown(markdown: string): Promise<string> {
+  const file = await processor.process(markdown);
+  return String(file);
+}
