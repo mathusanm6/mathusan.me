@@ -4,7 +4,6 @@ date: "2026-10-11"
 category: Game Development
 summary: "A deckbuilder-style card system on a standard 52-card deck: a fanned hand, slot docking, drag-to-reorder and a discard pile, playable in your browser."
 cover: /posts/godot-card-system-curved-hand/cover.png
-draft: true
 ---
 
 **[Play it in your browser](https://godot-game-systems.mathusan.me/card-system/)** · [Source on GitHub](https://github.com/mathusanm6/godot-game-systems/tree/main/card-system)

@@ -4,7 +4,6 @@ date: "2026-10-11"
 category: Game Development
 summary: "A King you can move in 8 directions on a board that grows and shrinks with it, with an adaptive camera and a lot of small juice. Playable in your browser."
 cover: /posts/godot-expandable-chessboard-king/cover.png
-draft: true
 ---
 
 **[Play it in your browser](https://godot-game-systems.mathusan.me/chess-movement-system/)** · [Source on GitHub](https://github.com/mathusanm6/godot-game-systems/tree/main/chess-movement-system)
