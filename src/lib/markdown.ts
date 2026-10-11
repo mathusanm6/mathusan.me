@@ -14,7 +14,13 @@ type HastNode = {
   children?: HastNode[];
 };
 
-/** Open absolute links in a new tab, and lazy-load images. */
+const VIDEO_EXT = /\.(mp4|webm)(\?.*)?$/i;
+
+/**
+ * Open absolute links in a new tab, lazy-load images, and turn an image
+ * whose source is a video file into a muted, looping, inline <video>:
+ *   ![alt text](/posts/<slug>/demo.mp4)
+ */
 function rehypeLinksAndImages() {
   return (tree: HastNode) => {
     const walk = (node: HastNode) => {
@@ -27,7 +33,17 @@ function rehypeLinksAndImages() {
             props.rel = 'noopener noreferrer';
           }
         }
-        if (node.tagName === 'img') {
+        if (node.tagName === 'img' && VIDEO_EXT.test(String(props.src ?? ''))) {
+          node.tagName = 'video';
+          props.ariaLabel = String(props.alt ?? '');
+          delete props.alt;
+          props.autoPlay = true;
+          props.muted = true;
+          props.loop = true;
+          props.playsInline = true;
+          props.controls = true;
+          props.preload = 'metadata';
+        } else if (node.tagName === 'img') {
           props.loading = 'lazy';
           props.decoding = 'async';
         }

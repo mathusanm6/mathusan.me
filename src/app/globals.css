@@ -230,7 +230,8 @@ body {
   line-height: 1;
 }
 
-.prose-post img {
+.prose-post img,
+.prose-post video {
   display: block;
   max-width: 100%;
   height: auto;

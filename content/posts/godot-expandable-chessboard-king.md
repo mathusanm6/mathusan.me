@@ -11,7 +11,7 @@ draft: true
 
 An 8-way King on a board that expands when you walk toward the edge and shrinks back when you leave it.
 
-![The King on the expandable chessboard](/posts/godot-expandable-chessboard-king/image-1.png)
+![Screen recording of the chess movement system prototype](/posts/godot-expandable-chessboard-king/demo.mp4)
 
 - **8-way movement** (cardinals and diagonals) by keyboard or point-and-click.
 - A board that resizes from **7x7 to 17x17**, with a fade on the perimeter tiles.
