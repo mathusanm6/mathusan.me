@@ -1,6 +1,6 @@
 ---
 title: "An Expandable Chessboard in Godot: 8-Way King Movement"
-date: "2026-10-11"
+date: "2026-10-08"
 category: Game Development
 summary: "A King you can move in 8 directions on a board that grows and shrinks with it, with an adaptive camera and a lot of small juice. Playable in your browser."
 cover: /posts/godot-expandable-chessboard-king/cover.png

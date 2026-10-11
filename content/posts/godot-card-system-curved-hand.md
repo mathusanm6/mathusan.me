@@ -1,6 +1,6 @@
 ---
 title: "A Playable Card System in Godot: Curved Hand, Slots and a Discard Pile"
-date: "2026-10-11"
+date: "2026-10-08"
 category: Game Development
 summary: "A deckbuilder-style card system on a standard 52-card deck: a fanned hand, slot docking, drag-to-reorder and a discard pile, playable in your browser."
 cover: /posts/godot-card-system-curved-hand/cover.png
