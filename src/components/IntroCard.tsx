@@ -25,7 +25,7 @@ const PASSIONS: Record<
   gamedev: {
     label: 'Game Developer',
     role: 'Game Developer (Design / Code / Art)',
-    focus: ['Godot', 'GDScript', 'Procreate', 'Affinity Designer'],
+    focus: ['godot', 'gdscript', 'procreate', 'affinity designer'],
   },
 };
 
